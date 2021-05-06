@@ -11,15 +11,12 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/product")
 public class TestController {
-  /*  @GetMapping
-    public String hello(){
-        return "Lets go this!";
-    }*/
+
     @Autowired
     public IProductService service;
 
     @GetMapping()
     public List<ProductResponse> getAllProducts(){
-        return this.service.getAll().stream().map(product -> new ProductResponse(product)).collect(Collectors.toList());
+        return this.service.getAll().stream().map(ProductResponse::new).collect(Collectors.toList());
     }
 }
