@@ -24,4 +24,10 @@ public class TestController {
     public ProductResponse addProduct(@RequestBody  ProductRequest request){
         return new ProductResponse(this.service.createProduct(request));
     }
+
+    @GetMapping("/{id}")
+    public List<ProductResponse> getAllProductsById(@PathVariable("id") Long id){
+        return this.service.getAllById(id).stream().map(ProductResponse::new).collect(Collectors.toList());//prechadza cez kazde prvky a zmeni ho na ProductResponse
+    }
+
 }

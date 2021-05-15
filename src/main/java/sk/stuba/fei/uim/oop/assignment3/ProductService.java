@@ -3,6 +3,7 @@ package sk.stuba.fei.uim.oop.assignment3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService implements  IProductService{
@@ -14,7 +15,7 @@ public class ProductService implements  IProductService{
     public ProductService(ProductRepository repository){
         this.repository = repository;
         //pridala som product
-        Product p1 = new Product();
+       /* Product p1 = new Product();
         p1.setName("Luk");
         p1.setDescription("povrce");
         p1.setAmount(1000);
@@ -27,7 +28,7 @@ public class ProductService implements  IProductService{
         p2.setAmount(1000);
         p2.setUnit("gr");
         p2.setPrice(149.99);
-        this.repository.save(p2);
+        this.repository.save(p2);*/
 
     }
 
@@ -52,4 +53,11 @@ public class ProductService implements  IProductService{
 
 
     }
+
+    @Override
+    public Optional<Product> getAllById(Long id) {
+        return this.repository.findById(id);
+    }
+
+
 }
