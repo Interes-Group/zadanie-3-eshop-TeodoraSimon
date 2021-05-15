@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @Entity //bude ukladana do databazy
 @Getter
 @Setter
-
+//zaznam databazy
 public class Product {
 
     @Id
@@ -21,6 +21,6 @@ public class Product {
     private String description;
     private int amount;
     private String unit;
-    private int price;
+    private double price;
 
 }

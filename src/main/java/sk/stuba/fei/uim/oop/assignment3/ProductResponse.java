@@ -2,7 +2,7 @@ package sk.stuba.fei.uim.oop.assignment3;
 
 import lombok.Getter;
 
-@Getter
+@Getter //na vsetky atributi
 public class ProductResponse {
 
     private Long id;
@@ -10,7 +10,7 @@ public class ProductResponse {
     private String description;
     private int amount;
     private String unit;
-    private int price;
+    private double price;
 
     public ProductResponse(Product p) {
         this.id = p.getId();

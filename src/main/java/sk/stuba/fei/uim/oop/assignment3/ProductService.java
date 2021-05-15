@@ -7,18 +7,27 @@ import java.util.List;
 @Service
 public class ProductService implements  IProductService{
 
+    //ProductService komunikuje z repository, prepojime ho
     public ProductRepository repository;
 
     @Autowired
     public ProductService(ProductRepository repository){
         this.repository = repository;
+        //pridala som product
         Product p1 = new Product();
-        p1.setName("Smoki");
-        p1.setDescription("Grickalica");
-        p1.setAmount(100);
+        p1.setName("Luk");
+        p1.setDescription("povrce");
+        p1.setAmount(1000);
         p1.setUnit("gr");
-        p1.setPrice(46);
+        p1.setPrice(59.99);
         this.repository.save(p1);
+        Product p2 = new Product();
+        p2.setName("Limun");
+        p2.setDescription("voce");
+        p2.setAmount(1000);
+        p2.setUnit("gr");
+        p2.setPrice(149.99);
+        this.repository.save(p2);
 
     }
 
@@ -26,5 +35,21 @@ public class ProductService implements  IProductService{
     @Override
     public List<Product> getAll() {
         return this.repository.findAll();
+    }
+
+    @Override
+    public Product createProduct(ProductRequest request) {
+
+        Product newProduct = new Product();
+
+        newProduct.setName(request.getName());
+        newProduct.setDescription(request.getDescription());
+        newProduct.setAmount(request.getAmount());
+        newProduct.setUnit(request.getUnit());
+        newProduct.setPrice(request.getPrice());
+
+        return this.repository.save(newProduct);
+
+
     }
 }
