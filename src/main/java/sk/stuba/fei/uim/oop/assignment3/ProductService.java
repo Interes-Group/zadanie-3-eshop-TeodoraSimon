@@ -59,5 +59,22 @@ public class ProductService implements  IProductService{
         return this.repository.findById(id);
     }
 
+    @Override
+    public Product updateProduct(Long productId,ProductRequest request ) {
+        Product productToFind = this.repository.findById(productId).get();
+        productToFind.setName(request.getName());
+        productToFind.setDescription(request.getDescription());
+        return this.repository.save(productToFind);
+    }
+
+    @Override
+    public  void deleteProductById(Long id) {
+        this.repository.deleteById(id);
+    }
+
+
+
+
+
 
 }

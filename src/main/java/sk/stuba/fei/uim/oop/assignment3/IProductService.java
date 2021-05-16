@@ -8,4 +8,6 @@ public interface IProductService {
     List<Product> getAll(); // vytvorili sme to preto aby servica vedela vracat zozanm productov
     Product createProduct(ProductRequest request);
     Optional<Product> getAllById(Long id);
+    Product updateProduct(Long productId,ProductRequest request);
+    void deleteProductById(Long id);
 }
