@@ -1,4 +1,4 @@
-package sk.stuba.fei.uim.oop.assignment3;
+package sk.stuba.fei.uim.oop.assignment3.product;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,4 +12,6 @@ public class ProductRequest {
     private int amount;
     private String unit;
     private double price;
+
+
 }

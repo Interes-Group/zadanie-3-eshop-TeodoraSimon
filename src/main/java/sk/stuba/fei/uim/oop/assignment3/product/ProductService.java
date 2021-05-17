@@ -1,4 +1,4 @@
-package sk.stuba.fei.uim.oop.assignment3;
+package sk.stuba.fei.uim.oop.assignment3.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class ProductService implements  IProductService{
     public ProductService(ProductRepository repository){
         this.repository = repository;
         //pridala som product
-       /* Product p1 = new Product();
+        Product p1 = new Product();
         p1.setName("Luk");
         p1.setDescription("povrce");
         p1.setAmount(1000);
@@ -28,7 +28,7 @@ public class ProductService implements  IProductService{
         p2.setAmount(1000);
         p2.setUnit("gr");
         p2.setPrice(149.99);
-        this.repository.save(p2);*/
+        this.repository.save(p2);
 
     }
 
@@ -49,32 +49,49 @@ public class ProductService implements  IProductService{
         newProduct.setUnit(request.getUnit());
         newProduct.setPrice(request.getPrice());
 
+
         return this.repository.save(newProduct);
 
 
     }
 
     @Override
-    public Optional<Product> getAllById(Long id) {
-        return this.repository.findById(id);
+    public Product getAllById(Long id) {
+        return this.repository.findById(id).orElseThrow();
     }
 
     @Override
     public Product updateProduct(Long productId,ProductRequest request ) {
-        Product productToFind = this.repository.findById(productId).get();
-        productToFind.setName(request.getName());
-        productToFind.setDescription(request.getDescription());
+        Product productToFind = this.repository.findById(productId).orElseThrow();
+        if(request.getDescription() != null) {
+            productToFind.setDescription(request.getDescription());
+        }
+        if(request.getName() != null){
+            productToFind.setName(request.getName());
+        }
         return this.repository.save(productToFind);
     }
 
     @Override
     public  void deleteProductById(Long id) {
+
+        this.repository.findById(id).orElseThrow();
+
         this.repository.deleteById(id);
+
     }
 
+    public Product getAmountById(Long id) {
+        return this.repository.findById(id).orElseThrow();
 
+    }
 
-
+    @Override
+    public Product increaseAmount(Long id, ProductRequest request) {
+        Product productToFind = this.repository.findById(id).orElseThrow();
+        productToFind.setAmount(productToFind.getAmount()+request.getAmount());
+        return this.repository.save(productToFind);
+    }
 
 
 }

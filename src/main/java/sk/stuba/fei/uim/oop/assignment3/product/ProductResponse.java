@@ -1,4 +1,4 @@
-package sk.stuba.fei.uim.oop.assignment3;
+package sk.stuba.fei.uim.oop.assignment3.product;
 
 import lombok.Getter;
 
@@ -20,4 +20,7 @@ public class ProductResponse {
         this.unit = p.getUnit();
         this.price = p.getPrice();
     }
+
+
+
 }
