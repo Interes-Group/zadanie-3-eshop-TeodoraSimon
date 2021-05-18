@@ -3,8 +3,7 @@ package sk.stuba.fei.uim.oop.assignment3.cart;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import sk.stuba.fei.uim.oop.assignment3.product.Product;
-import sk.stuba.fei.uim.oop.assignment3.product.ShoppingResponse;
+import sk.stuba.fei.uim.oop.assignment3.shoppinglist.ShoppingList;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,8 +20,11 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ElementCollection
-    private List<ShoppingResponse> shoppingList = new ArrayList<>();
+    /*@ElementCollection
+    private List<ShoppingResponse> shoppingList = new ArrayList<>();*/
+
+    @OneToMany
+    private List<ShoppingList> shoppingList = new ArrayList<>();
 
     private boolean payed=false;
 

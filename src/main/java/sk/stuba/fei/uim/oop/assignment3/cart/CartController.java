@@ -25,13 +25,19 @@ public class CartController {
 
     @PostMapping()
     public ResponseEntity<CartResponse> addCart(){
-        return new ResponseEntity<>(new CartResponse(this.service.createCart(new CartResponse(new Cart()))), HttpStatus.CREATED);
+        return new ResponseEntity<>(new CartResponse(this.service.createCart()), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public CartResponse getCartById(@PathVariable("id") Long id){
+    public CartResponse getAllCartsById(@PathVariable("id") Long id){
         return new CartResponse(this.service.getAllById(id));//prechadza cez kazde prvky a zmeni ho na ProductResponse
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteCart(@PathVariable("id") Long cartId){
+        this.service.deleteCartById(cartId);
+    }
+
 
 
 

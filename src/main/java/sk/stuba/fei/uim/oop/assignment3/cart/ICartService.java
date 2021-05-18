@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface ICartService {
     List<Cart> getAll();
-    Cart createCart(CartResponse response);
+    Cart createCart();
     Cart getAllById(Long id);
+    void deleteCartById(Long id);
 }

@@ -1,15 +1,17 @@
 package sk.stuba.fei.uim.oop.assignment3.cart;
 
 import lombok.Getter;
-import sk.stuba.fei.uim.oop.assignment3.product.ShoppingResponse;
+import sk.stuba.fei.uim.oop.assignment3.shoppinglist.ShoppingList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 public class CartResponse {
 
     private Long id;
-    private List<ShoppingResponse> shoppingList;
+    private List<ShoppingList> shoppingList = new ArrayList<>();
+    //private List<ShoppingResponse> shoppingList;
 
     private boolean payed;
 

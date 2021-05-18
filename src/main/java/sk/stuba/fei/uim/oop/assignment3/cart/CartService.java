@@ -1,16 +1,16 @@
 package sk.stuba.fei.uim.oop.assignment3.cart;
 
-import antlr.debug.ParserTokenAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sk.stuba.fei.uim.oop.assignment3.exceptions.NotFoundException;
 import sk.stuba.fei.uim.oop.assignment3.product.IProductService;
 import sk.stuba.fei.uim.oop.assignment3.product.Product;
-import sk.stuba.fei.uim.oop.assignment3.product.ShoppingResponse;
+import sk.stuba.fei.uim.oop.assignment3.shoppinglist.ShoppingList;
+import sk.stuba.fei.uim.oop.assignment3.shoppinglist.ShoppingListRequest;
+import sk.stuba.fei.uim.oop.assignment3.shoppinglist.ShoppingRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CartService implements ICartService{
@@ -18,7 +18,11 @@ public class CartService implements ICartService{
     private CartRepository repository;
 
     @Autowired
+    private ShoppingRepository shoppingRepository;
+
+    @Autowired
     private IProductService productService;
+
     @Autowired
     public CartService(CartRepository repository) {
         this.repository = repository;
@@ -35,11 +39,11 @@ public class CartService implements ICartService{
 
 
     @Override
-    public Cart createCart(CartResponse cartResponse) {
+    public Cart createCart() {
 
         Cart newC = new Cart();
-        newC.setId(cartResponse.getId());
-        newC.setShoppingList(cartResponse.getShoppingList());
+        newC.setShoppingList(null);
+        newC.setPayed(false);
         return this.repository.save(newC);
 
     }
@@ -48,15 +52,28 @@ public class CartService implements ICartService{
     public Cart getAllById(Long id) {
         return this.repository.findById(id).orElseThrow();
     }
-/*
-    public Cart addProductToCart(long cardId, long productId){
+
+    public Cart addProductToCart(long cardId, long productId, ShoppingListRequest request){
         Optional<Cart> cartOpt = this.repository.findById(cardId);
         Cart cart = cartOpt.orElseThrow(NotFoundException::new);
 
         Product product = this.productService.getAllById(productId);
 
-        ShoppingResponse resp = new ShoppingResponse();
-    }*/
+        ShoppingList shoppingList = new ShoppingList(cart, product, request.getAmount());
+        shoppingList = this.shoppingRepository.save(shoppingList);
+
+        cart.getShoppingList().add(shoppingList);
+        return this.repository.save(cart);
+    }
+
+    @Override
+    public  void deleteCartById(Long id) {
+
+        this.repository.findById(id).orElseThrow();
+
+        this.repository.deleteById(id);
+
+    }
 /*
     @Override
     public Animal addPersonToAnimal(long animalId, long personId) {
