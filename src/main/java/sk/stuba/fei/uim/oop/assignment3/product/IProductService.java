@@ -10,7 +10,7 @@ public interface IProductService {
     Product updateProduct(Long productId,ProductRequest request);
     void deleteProductById(Long id);
     Product getAmountById(Long id);
-
+    Product save(Product p);
     Product increaseAmount(Long id, ProductRequest request);
 
 

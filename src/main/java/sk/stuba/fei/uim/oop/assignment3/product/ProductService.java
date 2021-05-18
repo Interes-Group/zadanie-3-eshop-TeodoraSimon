@@ -93,5 +93,8 @@ public class ProductService implements  IProductService{
         return this.repository.save(productToFind);
     }
 
+    public Product save(Product p){
+        return this.repository.save(p);
+    }
 
 }

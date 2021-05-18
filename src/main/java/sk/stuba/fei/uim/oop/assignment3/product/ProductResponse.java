@@ -12,13 +12,19 @@ public class ProductResponse {
     private String unit;
     private double price;
 
+    //private Long cartId;
+
     public ProductResponse(Product p) {
+        if(p==null){
+            return;
+        }
         this.id = p.getId();
         this.name = p.getName();
         this.description = p.getDescription();
         this.amount = p.getAmount();
         this.unit = p.getUnit();
         this.price = p.getPrice();
+      //  this.cartId = p.getCart() != null ? p.getCart().getId() : null;
     }
 
 
