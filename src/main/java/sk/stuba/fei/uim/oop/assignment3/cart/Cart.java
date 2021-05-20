@@ -6,6 +6,9 @@ import lombok.Setter;
 import sk.stuba.fei.uim.oop.assignment3.shoppinglist.ShoppingList;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name="carts")
 public class Cart {
 
     @Id
@@ -23,8 +27,8 @@ public class Cart {
     /*@ElementCollection
     private List<ShoppingResponse> shoppingList = new ArrayList<>();*/
 
-    @OneToMany
-    private List<ShoppingList> shoppingList = new ArrayList<>();
+    @OneToMany(mappedBy = "cart")
+    private List<ShoppingList> shoppingList = new ArrayList<ShoppingList>();
 
     private boolean payed=false;
 

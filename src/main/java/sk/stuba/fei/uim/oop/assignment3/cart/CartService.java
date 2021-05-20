@@ -2,6 +2,8 @@ package sk.stuba.fei.uim.oop.assignment3.cart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import sk.stuba.fei.uim.oop.assignment3.exceptions.BadRequestException;
 import sk.stuba.fei.uim.oop.assignment3.exceptions.NotFoundException;
 import sk.stuba.fei.uim.oop.assignment3.product.IProductService;
 import sk.stuba.fei.uim.oop.assignment3.product.Product;
@@ -14,7 +16,7 @@ import java.util.Optional;
 
 @Service
 public class CartService implements ICartService{
-
+    @Autowired
     private CartRepository repository;
 
     @Autowired
@@ -42,7 +44,7 @@ public class CartService implements ICartService{
     public Cart createCart() {
 
         Cart newC = new Cart();
-        newC.setShoppingList(null);
+        newC.getShoppingList().clear();
         newC.setPayed(false);
         return this.repository.save(newC);
 
@@ -53,19 +55,6 @@ public class CartService implements ICartService{
         return this.repository.findById(id).orElseThrow();
     }
 
-    public Cart addProductToCart(long cardId, long productId, ShoppingListRequest request){
-        Optional<Cart> cartOpt = this.repository.findById(cardId);
-        Cart cart = cartOpt.orElseThrow(NotFoundException::new);
-
-        Product product = this.productService.getAllById(productId);
-
-        ShoppingList shoppingList = new ShoppingList(cart, product, request.getAmount());
-        shoppingList = this.shoppingRepository.save(shoppingList);
-
-        cart.getShoppingList().add(shoppingList);
-        return this.repository.save(cart);
-    }
-
     @Override
     public  void deleteCartById(Long id) {
 
@@ -74,23 +63,67 @@ public class CartService implements ICartService{
         this.repository.deleteById(id);
 
     }
-/*
-    @Override
-    public Animal addPersonToAnimal(long animalId, long personId) {
-        Optional<Animal> animalOpt = this.repository.findById(animalId);
-        Animal animal = animalOpt.orElseThrow(NotFoundException::new);
 
-        Person person = this.personService.getById(personId);
+    public Cart addProductToCart( long productId, long cardId, long amount){
+        Cart cart = this.repository.findById(cardId).orElseThrow();
+        Product product = this.productService.getById(productId);
 
-        Payment payment = new Payment(animal, person, 10);
+        //az je zaplatene vrat error
+        if (cart.isPayed()) {
+            throw new BadRequestException();
+        }
 
-        payment = this.paymentRepository.save(payment);
+        //az nema tolko kusu na sklade vrat error
+        if (product.getAmount() < amount) {
+            throw new BadRequestException();
+        }
 
-        person.getPayments().add(payment);
-        animal.getPayments().add(payment);
+        this.productService.decreaseAmount(productId, (int)amount);
 
-        this.personService.save(person);
-        return this.repository.save(animal);
-    }*/
+        ShoppingList  shoppingList = null;
+        for (ShoppingList sl : cart.getShoppingList()) {
+            if(sl.getProductId() == productId) {
+                shoppingList = sl;
+            }
+        }
+
+
+        if(shoppingList == null) {
+            shoppingList = new ShoppingList();
+            shoppingList.setAmount(amount);
+            shoppingList.setProductId(productId);
+            shoppingList.setCart(cart);
+
+            cart.getShoppingList().add(shoppingList);
+        }
+        else {
+            //az uz je v shoppinglist dodaj dalsi pocet
+            shoppingList.setAmount(shoppingList.getAmount() + amount);
+        }
+
+
+
+        this.shoppingRepository.save(shoppingList);
+        this.repository.save(cart);
+        return cart;
+    }
+
+    public double payForCart(long cardId) {
+        Cart cart = this.repository.findById(cardId).orElseThrow();
+        if(cart.isPayed()) {
+            throw new BadRequestException();
+        }else {
+            cart.setPayed(true);
+        }
+
+        Double price = 0d;
+        for (ShoppingList sl : cart.getShoppingList()) {
+            Product product = this.productService.getById(sl.getProductId());
+            price += product.getPrice() * sl.getAmount();
+        }
+
+        this.repository.save(cart);
+        return price;
+    }
 
 }

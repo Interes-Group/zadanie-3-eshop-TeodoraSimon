@@ -15,4 +15,8 @@ public class NotFoundControllerAdvice {
     @ExceptionHandler(value = {NotFoundException.class, NoSuchElementException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void handleException() {}
+
+    @ExceptionHandler(value = {BadRequestException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handleBadRequest() {}
 }

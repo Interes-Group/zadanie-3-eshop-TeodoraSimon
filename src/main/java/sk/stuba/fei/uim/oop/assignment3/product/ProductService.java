@@ -92,6 +92,17 @@ public class ProductService implements  IProductService{
         productToFind.setAmount(productToFind.getAmount()+request.getAmount());
         return this.repository.save(productToFind);
     }
+    @Override
+    public void decreaseAmount(Long id, int amount) {
+        Product productToFind = this.repository.findById(id).orElseThrow();
+        productToFind.setAmount(productToFind.getAmount() - amount);
+        this.repository.save(productToFind);
+    }
+
+    @Override
+    public Product getById(long productId) {
+        return this.repository.findById(productId).orElseThrow();
+    }
 
     public Product save(Product p){
         return this.repository.save(p);

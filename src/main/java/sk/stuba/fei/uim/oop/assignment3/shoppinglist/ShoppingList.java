@@ -3,34 +3,31 @@ package sk.stuba.fei.uim.oop.assignment3.shoppinglist;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import sk.stuba.fei.uim.oop.assignment3.cart.Cart;
-import sk.stuba.fei.uim.oop.assignment3.product.Product;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
+@Table(name="ShoppingLists")
 public class ShoppingList {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
     @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="cart_id")
     private Cart cart;
 
-    @ManyToOne
-    private Product product;
-
-    private int amount;
-
-    public ShoppingList(Cart cart, Product product, int amount) {
-        this.cart = cart;
-        this.product = product;
-        this.amount = amount;
-    }
-
+    private long productId;
+    private long amount;
 
 }

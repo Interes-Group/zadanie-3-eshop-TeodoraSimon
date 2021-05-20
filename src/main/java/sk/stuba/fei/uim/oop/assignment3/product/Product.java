@@ -26,8 +26,8 @@ public class Product {
     private String unit;
     private double price;
 
-
+/*
     @Setter
     @OneToMany
-    private List<ShoppingList> payments = new ArrayList<>();
+    private List<ShoppingList> shoppingLists = new ArrayList<>();*/
 }

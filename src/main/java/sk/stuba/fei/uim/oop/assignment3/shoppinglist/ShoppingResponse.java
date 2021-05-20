@@ -13,8 +13,16 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ShoppingResponse {
 
-    private Long id;
-    private int amount;
+    private Long productId;
+    private Long amount;
+
+    public ShoppingResponse(Long productId , Long amount){
+        this.productId = productId;
+        this.amount = amount;
+    }
+
+
+
 
 
 }

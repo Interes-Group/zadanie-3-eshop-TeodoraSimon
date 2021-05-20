@@ -13,5 +13,7 @@ public interface IProductService {
     Product save(Product p);
     Product increaseAmount(Long id, ProductRequest request);
 
+    void decreaseAmount(Long id, int amount);
 
+    Product getById(long productId);
 }
