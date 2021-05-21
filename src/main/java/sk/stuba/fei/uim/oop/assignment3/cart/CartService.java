@@ -16,7 +16,8 @@ import java.util.Optional;
 
 @Service
 public class CartService implements ICartService{
-    @Autowired
+
+
     private CartRepository repository;
 
     @Autowired
@@ -65,6 +66,7 @@ public class CartService implements ICartService{
     }
 
     public Cart addProductToCart( long productId, long cardId, long amount){
+
         Cart cart = this.repository.findById(cardId).orElseThrow();
         Product product = this.productService.getById(productId);
 
@@ -101,14 +103,13 @@ public class CartService implements ICartService{
             shoppingList.setAmount(shoppingList.getAmount() + amount);
         }
 
-
-
         this.shoppingRepository.save(shoppingList);
         this.repository.save(cart);
         return cart;
     }
 
     public double payForCart(long cardId) {
+
         Cart cart = this.repository.findById(cardId).orElseThrow();
         if(cart.isPayed()) {
             throw new BadRequestException();

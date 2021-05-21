@@ -5,9 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sk.stuba.fei.uim.oop.assignment3.product.ProductRequest;
-import sk.stuba.fei.uim.oop.assignment3.product.ProductResponse;
-import sk.stuba.fei.uim.oop.assignment3.shoppinglist.ShoppingList;
 import sk.stuba.fei.uim.oop.assignment3.shoppinglist.ShoppingListRequest;
 
 import java.util.List;
@@ -32,20 +29,14 @@ public class CartController {
 
     @GetMapping("/{id}")
     public CartResponse getAllCartsById(@PathVariable("id") Long id){
-        return new CartResponse(this.service.getAllById(id));//prechadza cez kazde prvky a zmeni ho na ProductResponse
+        return new CartResponse(this.service.getAllById(id));
     }
 
     @DeleteMapping("/{id}")
     public void deleteCart(@PathVariable("id") Long cartId){
         this.service.deleteCartById(cartId);
     }
-    /*
-        @PostMapping("/{id}/add")
-        public ResponseEntity<CartResponse> addProductToCart(@PathVariable("id") long cartId, @RequestBody ShoppingListRequest shoppingListRequest){
-            return new ResponseEntity<>( new CartResponse(this.service.addProductToCart(shoppingListRequest.getId(), cartId,shoppingListRequest.getAmount1())), HttpStatus.CREATED);
-        }
 
-    */
     @PostMapping("/{id}/add")
     public ResponseEntity<CartResponse> addProductToCart(@PathVariable("id") long cartId, @RequestBody ShoppingListRequest shoppingListRequest){
         return new ResponseEntity<>( new CartResponse(this.service.addProductToCart(shoppingListRequest.getProductId(), cartId,shoppingListRequest.getAmount())), HttpStatus.OK);

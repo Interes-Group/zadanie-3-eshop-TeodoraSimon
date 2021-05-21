@@ -6,9 +6,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-//ake operacie mozeme vytvorit nad db
+
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
- List<Product> findAll();//vrati List product
+ List<Product> findAll();
  Optional<Product> findById(Long id);
 }

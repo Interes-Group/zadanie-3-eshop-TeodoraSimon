@@ -12,14 +12,12 @@ public class CartResponse {
 
     private Long id;
     private List<ShoppingResponse> shoppingList;
-    //private List<ShoppingResponse> shoppingList;
 
     private boolean payed;
 
     public CartResponse(Cart c) {
         shoppingList = new ArrayList<ShoppingResponse>();
         this.id = c.getId();
-        //this.shoppingList = c.getShoppingList();
         for(ShoppingList sL : c.getShoppingList()){
             shoppingList.add(new ShoppingResponse((Long)sL.getProductId() , sL.getAmount()));
         }

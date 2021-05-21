@@ -2,18 +2,16 @@ package sk.stuba.fei.uim.oop.assignment3.product;
 
 import java.util.List;
 
-//mame prve interface lebo je to jednoduchsie vymenit pozdejsie
+
 public interface IProductService {
-    List<Product> getAll(); // vytvorili sme to preto aby servica vedela vracat zozanm productov
+    List<Product> getAll();
     Product createProduct(ProductRequest request);
     Product getAllById(Long id);
     Product updateProduct(Long productId,ProductRequest request);
     void deleteProductById(Long id);
-    Product getAmountById(Long id);
-    Product save(Product p);
+    // Product getAmountById(Long id);
+    //Product save(Product p);
     Product increaseAmount(Long id, ProductRequest request);
-
     void decreaseAmount(Long id, int amount);
-
     Product getById(long productId);
 }

@@ -3,19 +3,18 @@ package sk.stuba.fei.uim.oop.assignment3.product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService implements  IProductService{
 
-    //ProductService komunikuje z repository, prepojime ho
+
     public ProductRepository repository;
 
     @Autowired
     public ProductService(ProductRepository repository){
         this.repository = repository;
         //pridala som product
-        Product p1 = new Product();
+        /*Product p1 = new Product();
         p1.setName("Luk");
         p1.setDescription("povrce");
         p1.setAmount(1000);
@@ -28,7 +27,7 @@ public class ProductService implements  IProductService{
         p2.setAmount(1000);
         p2.setUnit("gr");
         p2.setPrice(149.99);
-        this.repository.save(p2);
+        this.repository.save(p2);*/
 
     }
 
@@ -49,9 +48,7 @@ public class ProductService implements  IProductService{
         newProduct.setUnit(request.getUnit());
         newProduct.setPrice(request.getPrice());
 
-
         return this.repository.save(newProduct);
-
 
     }
 
@@ -62,10 +59,13 @@ public class ProductService implements  IProductService{
 
     @Override
     public Product updateProduct(Long productId,ProductRequest request ) {
+
         Product productToFind = this.repository.findById(productId).orElseThrow();
+
         if(request.getDescription() != null) {
             productToFind.setDescription(request.getDescription());
         }
+
         if(request.getName() != null){
             productToFind.setName(request.getName());
         }
@@ -80,11 +80,11 @@ public class ProductService implements  IProductService{
         this.repository.deleteById(id);
 
     }
-
+/*
     public Product getAmountById(Long id) {
         return this.repository.findById(id).orElseThrow();
 
-    }
+    }*/
 
     @Override
     public Product increaseAmount(Long id, ProductRequest request) {
@@ -92,6 +92,7 @@ public class ProductService implements  IProductService{
         productToFind.setAmount(productToFind.getAmount()+request.getAmount());
         return this.repository.save(productToFind);
     }
+
     @Override
     public void decreaseAmount(Long id, int amount) {
         Product productToFind = this.repository.findById(id).orElseThrow();
@@ -103,9 +104,9 @@ public class ProductService implements  IProductService{
     public Product getById(long productId) {
         return this.repository.findById(productId).orElseThrow();
     }
-
+/*
     public Product save(Product p){
         return this.repository.save(p);
-    }
+    }*/
 
 }

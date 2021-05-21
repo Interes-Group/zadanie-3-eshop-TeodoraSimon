@@ -10,11 +10,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity //bude ukladana do databazy
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
-//zaznam databazy
 public class Product {
 
     @Id
@@ -26,8 +25,5 @@ public class Product {
     private String unit;
     private double price;
 
-/*
-    @Setter
-    @OneToMany
-    private List<ShoppingList> shoppingLists = new ArrayList<>();*/
+
 }
